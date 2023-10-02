@@ -1,8 +1,6 @@
 import express from "express";
-import { router as postRouter } from './post'; // Import the router from post.route.ts
-import { router as userRouter } from './user';
+import {authRoute} from "./auth/authRoute";
 
 export const router = express.Router();
 
-router.use("/v1/api", postRouter);
-router.use("/v1/api", userRouter);
+router.use("/v1/api", authRoute);

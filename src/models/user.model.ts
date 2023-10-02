@@ -24,6 +24,7 @@ const userSchema = new Schema<IUser>({
     gender: {
         type: Number,
         enum: [0, 1],
+        required: true 
     },
     profile_picture: {
         type: String,

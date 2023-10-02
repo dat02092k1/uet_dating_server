@@ -1,5 +1,5 @@
 import {User} from "../models/user.model";
-import {Api403Error, Api404Error} from "../core/error.response";
+import {Api401Error, Api403Error, Api404Error} from "../core/error.response";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import {UtilFunc} from "../utils/func";
@@ -25,10 +25,27 @@ export class AuthService {
         await newUser.save();
         console.log(newUser);
         return {
-            metadata: {
                 user: UtilFunc.getInfoData({ fields: ['_id', 'location', 'email', 'name', 'profile_picture', 'gender'], object: newUser }),
                 token: UtilFunc.generateAccessToken(newUser)
-            }
+        }
+    }
+
+    static async signin (user: any) {
+        const {
+            email, password
+        } = user; 
+
+        let targetUser = await User.findOne({ email }).lean(); 
+        
+        if (!targetUser) throw new Api404Error('User not found');
+
+        const isMatch = await bcrypt.compareSync(password, targetUser.password);
+
+        if (!isMatch) throw new Api401Error('Wrong password');
+
+        return {
+            user: UtilFunc.getInfoData({ fields: ['_id', 'location', 'email', 'name', 'profile_picture', 'gender'], object: targetUser }),
+            token: UtilFunc.generateAccessToken(targetUser) 
         }
     }
 }

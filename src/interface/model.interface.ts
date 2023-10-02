@@ -8,6 +8,7 @@ export interface IUser {
     gender: number;
     birthdate: string;
     location: string;
+    role: string;
     profile_picture: string;
 }
 

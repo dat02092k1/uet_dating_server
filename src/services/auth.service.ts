@@ -3,11 +3,12 @@ import {Api401Error, Api403Error, Api404Error} from "../core/error.response";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import {UtilFunc} from "../utils/func";
+import { IUser } from "../interface/model.interface";
 
 dotenv.config();
 
 export class AuthService {
-    static async signup (user: any) {
+    static async signup (user: Partial<IUser>) {
         var holderUser = await User.findOne({
             $or: [
                 { email: user.email },
@@ -17,7 +18,7 @@ export class AuthService {
 
         if (holderUser) throw new Api403Error('User existed');
 
-        const hashPassword = await bcrypt.hash(user.password, parseInt(process.env.SALT_ROUNDS || '10'));
+        const hashPassword = await bcrypt.hash(user.password!, parseInt(process.env.SALT_ROUNDS || '10'));
 
         user.password = hashPassword;
 
@@ -30,7 +31,7 @@ export class AuthService {
         }
     }
 
-    static async signin (user: any) {
+    static async signin (user: Partial<IUser>) {
         const {
             email, password
         } = user; 
@@ -39,7 +40,7 @@ export class AuthService {
         
         if (!targetUser) throw new Api404Error('User not found');
 
-        const isMatch = await bcrypt.compareSync(password, targetUser.password);
+        const isMatch = await bcrypt.compareSync(password!, targetUser.password);
 
         if (!isMatch) throw new Api401Error('Wrong password');
 

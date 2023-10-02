@@ -5,6 +5,7 @@ import {IBio} from "../interface/model.interface";
 const bioSchema = new Schema<IBio>({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     hobbies: {
         type: Array

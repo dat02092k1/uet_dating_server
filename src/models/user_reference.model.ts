@@ -5,6 +5,7 @@ import {IUserPreference} from "../interface/model.interface";
 const userPreferenceSchema = new Schema<IUserPreference>({
     user_id: {
         type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     max_age: {

@@ -26,3 +26,25 @@ export interface IUserPreference {
     preferred_distance_min: number;
     preferred_distance_max: number;
 }
+
+interface IPhoto {
+    photo_url: string;
+    photo_id: string;
+}
+
+export interface IUserPhotos {
+    user_id: Types.ObjectId;
+    photo: IPhoto[];
+}
+
+export interface IMatch {
+    user1_id: Types.ObjectId;
+    user2_id: Types.ObjectId;
+    matched_at: Date;
+}
+
+export interface ILike {
+    sender_id: Types.ObjectId;
+    target_id: Types.ObjectId;
+    liked_at: Date;
+}

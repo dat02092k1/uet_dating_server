@@ -1,0 +1,19 @@
+"use strict"
+import mongoose, {Schema, model,} from 'mongoose'
+import {IUserPhotos} from "../interface/model.interface";
+
+const userPhotosSchema = new Schema<IUserPhotos>({
+    user_id: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    photo: [
+        {
+            photo_url: String,
+            photo_id: String
+        }
+    ]
+})
+
+export const UserPhoto = model<IUserPhotos>('UserPhotos', userPhotosSchema);

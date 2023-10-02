@@ -33,10 +33,8 @@ const userSchema = new Schema<IUser>({
         type: String,
         required: true
     },
-    bio_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Bio'
-    }
+}, {
+    timestamps: true
 })
 
 export const User = model<IUser>('User', userSchema);

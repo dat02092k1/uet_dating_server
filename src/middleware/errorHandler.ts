@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Api401Error, Api403Error, BaseError, BusinessLogicError, TypeError } from "../c";
+import { Api401Error, Api403Error, BaseError, BusinessLogicError, TypeError } from "../core/error.response";
 
 export const logError = (err: Error) => {
     console.error(err)

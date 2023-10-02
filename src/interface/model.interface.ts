@@ -48,3 +48,13 @@ export interface ILike {
     target_id: Types.ObjectId;
     liked_at: Date;
 }
+
+export interface IConversation {
+    members: [];
+}
+
+export interface IMessage {
+    conversation_id: Types.ObjectId;
+    sender_id: Types.ObjectId;
+    content: string;
+}

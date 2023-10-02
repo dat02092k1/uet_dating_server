@@ -8,4 +8,4 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // init db
-instanceMongodb;
+instanceMongodb.connect();

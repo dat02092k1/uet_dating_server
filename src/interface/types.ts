@@ -7,7 +7,7 @@ export enum UserRole {
  }
 
 export interface IAuthUser {
-    _id: Types.ObjectId,
+    id: Types.ObjectId,
     email: string,
     password: string,
     role: UserRole

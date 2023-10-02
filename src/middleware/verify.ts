@@ -4,7 +4,7 @@ import { utilConstants } from "../utils/constants";
 import jwt from "jsonwebtoken";
 import { Api401Error, Api403Error } from "../core/error.response";
 
-class verifyMiddileware {
+class VerifyMiddileware {
     verifyToken = (req: any , res: Response, next: NextFunction) => {
         const token = req.headers[utilConstants.HEADER.AUTHORIZATION] as string;
         if (token) {
@@ -15,6 +15,7 @@ class verifyMiddileware {
                     console.log(err);
                     throw new Api403Error("Forbidden request");
                 }
+                console.log(user);
                 req.user = user;
                 next();
             });
@@ -23,3 +24,5 @@ class verifyMiddileware {
         }
     }
 }
+
+export const verifyMiddileware = new VerifyMiddileware();

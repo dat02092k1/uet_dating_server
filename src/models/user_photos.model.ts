@@ -11,7 +11,7 @@ const userPhotosSchema = new Schema<IUserPhotos>({
     photo: [
         {
             photo_url: String,
-            photo_id: String
+            public_id: String
         }
     ]
 })

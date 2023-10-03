@@ -31,6 +31,7 @@ export interface IUserPreference {
 interface IPhoto {
     photo_url: string;
     photo_id: string;
+    _id: string;
 }
 
 export interface IUserPhotos {

@@ -5,6 +5,7 @@ import {cfg} from '../config/config.mongodb';
 const { db: {host, name, port}} = cfg;
 
 const connectString = `mongodb://${host}:${port}/${name}`;
+
 class Database {
     constructor() {
     }

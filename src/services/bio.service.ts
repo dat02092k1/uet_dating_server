@@ -34,12 +34,13 @@ export class BioService {
 
         if (!targetUser) throw new Api404Error('User not found');
 
-        const targetBio = await Bio.findOne({user_id}).populate('user_id'); 
+        let targetBio = await Bio.findOne({user_id}).populate('user_id');
 
         if (!targetBio) throw new Api404Error('Bio not found');
 
         return {
-            bio: UtilFunc.getInfoData({ fields: ['_id', 'location', 'email', 'name', 'profile_picture', 'gender'], object: targetBio.user_id })
+            bio: targetBio,
+            user: UtilFunc.getInfoData({ fields: ['_id', 'location', 'email', 'name', 'profile_picture', 'gender'], object: targetBio.user_id })
         }
     }
 }

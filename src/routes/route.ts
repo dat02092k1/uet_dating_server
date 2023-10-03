@@ -5,4 +5,4 @@ import { bioRoute } from "./bio/bioRoute";
 export const router = express.Router();
 
 router.use("/v1/api", authRoute);
-router.use("/v1/api",  bioRoute);
+router.use("/v1/api", bioRoute);

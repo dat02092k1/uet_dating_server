@@ -15,7 +15,7 @@ class VerifyMiddileware {
                     console.log(err);
                     throw new Api403Error("Forbidden request");
                 }
-                console.log(user);
+
                 req.user = user;
                 next();
             });

@@ -17,5 +17,6 @@ export interface UserRequest extends Request {
     user: IAuthUser,
     body: any,
     params: any,
-    query: any
+    query: any,
+    file: any
  }

@@ -48,7 +48,7 @@ export class BioService {
         let targetUser = await User.findById(user_id).lean();
 
         if (!targetUser) throw new Api404Error('User not found');
-        console.log(targetUser._id, user_id);
+
         if (targetUser._id.toString() !== user_id.toString()) throw new Api403Error('You are not allowed to update this bio');
 
         let targetBio = await Bio.findOne({user_id}).populate('user_id');

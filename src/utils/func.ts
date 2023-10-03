@@ -9,4 +9,8 @@ export class UtilFunc {
     static generateAccessToken(user: any) {
         return jwt.sign({id: user._id, role: user.role}, utilConstants.JWT_SECRET, {expiresIn: '1d'});
     }
+
+    static updateObj (targetObj: any, newObj: any) {
+        return _.extend(targetObj, newObj);
+    }
 }

@@ -14,6 +14,10 @@ class BioController {
     getBio = asyncHandler(async (req: UserRequest, res: Response, next: NextFunction) => {
         OK(res, 'get bio successfully', await BioService.getBio(req.user.id))
     })
+
+    updateBio = asyncHandler(async (req: UserRequest, res: Response, next: NextFunction) => {
+        OK(res, 'update bio successfully', await BioService.update(req.body.bio, req.user.id))
+    })
 }
 
 export const bioController = new BioController();

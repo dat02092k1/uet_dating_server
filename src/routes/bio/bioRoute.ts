@@ -7,3 +7,5 @@ export const bioRoute = express.Router();
 
 bioRoute.post('/bio', verifyMiddileware.verifyToken, bioController.createBio)
 bioRoute.get('/bio', verifyMiddileware.verifyToken, bioController.getBio)
+bioRoute.put('/bio', verifyMiddileware.verifyToken, bioController.updateBio)
+

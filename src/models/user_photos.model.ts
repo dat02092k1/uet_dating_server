@@ -4,7 +4,7 @@ import {IUserPhotos} from "../interface/model.interface";
 
 const userPhotosSchema = new Schema<IUserPhotos>({
     user_id: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },

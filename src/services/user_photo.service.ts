@@ -1,31 +1,27 @@
-import {Api401Error, BusinessLogicError} from "../core/error.response";
+import {Api401Error, Api404Error, BusinessLogicError} from "../core/error.response";
 import {cloudinary} from "../api_services/cloudinary";
-// import {cloudinaryService} from "../api_services/cloudinary";
+import {User} from "../models/user.model";
+import {UserPhoto} from "../models/user_photos.model";
+import {uploadImg} from "../helpers/upload";
+import { Types } from "mongoose";
 
 export class User_photoService {
-    static async uploadImg(files: any) {
-        console.log(files);
-        if (!files || files.length === 0) throw new Api401Error('No files were uploaded');
+    static async uploadPhoto(files: any, user_id: Types.ObjectId) {
+        const targetUser = await User.findById(user_id).lean();
 
-        for (let i = 0; i < files.length; i++) {
-            if (!files[i].mimetype.startsWith('image/')) {
-                throw new BusinessLogicError('Only image files are allowed');
-            }
+        if (!targetUser) throw new Api404Error('User not found');
+
+        const uploadResults = await uploadImg(files);
+
+        const userPhotos = new UserPhoto({
+            user_id: user_id,
+            photo: uploadResults
+        });
+
+        await userPhotos.save();
+
+        return {
+            photos: userPhotos
         }
-
-        const uploadResults = await Promise.all(
-            files.map(async (file: Express.Multer.File) => {
-                const result = await cloudinary.uploader.upload(file.path, {
-                    folder: 'UET_Dating'
-                });
-                if (!result) {
-                    console.log('Error uploading image');
-                    throw new BusinessLogicError('Error uploading image');
-                }
-                return result.secure_url;
-            })
-        );
-
-        return uploadResults;
     }
 }

@@ -28,9 +28,9 @@ export interface IUserPreference {
     preferred_distance_max: number;
 }
 
-interface IPhoto {
+export interface IPhoto {
     photo_url: string;
-    photo_id: string;
+    public_id: string;
     _id: string;
 }
 

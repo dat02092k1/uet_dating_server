@@ -7,4 +7,6 @@ export const userPhotoRouter = express.Router();
 
 userPhotoRouter.post('/photo', verifyMiddileware.verifyToken, upload.array('image', 6), user_photoController.upload);
 userPhotoRouter.delete('/photo', verifyMiddileware.verifyToken, user_photoController.delete);
+userPhotoRouter.post('/photo/add', verifyMiddileware.verifyToken, upload.single('image'), user_photoController.add);
+
 

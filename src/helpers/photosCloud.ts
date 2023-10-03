@@ -19,7 +19,7 @@ export async function uploadImg(files: any) {
                 console.log('Error uploading image');
                 throw new BusinessLogicError('Error uploading image');
             }
-            console.log(result);
+
             return {
                 photo_url: result.secure_url,
                 public_id: result.public_id

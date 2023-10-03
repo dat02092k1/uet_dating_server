@@ -12,6 +12,10 @@ class User_photoController {
     delete = asyncHandler(async (req: UserRequest, res: Response, next: NextFunction) => {
         OK(res, 'Delete successfully', await User_photoService.deletePhoto(req.user.id, req.query.photo_id));
     })
+
+    add = asyncHandler(async (req: UserRequest, res: Response, next: NextFunction) => {
+        OK(res, 'Add successfully', await User_photoService.addPhoto(req.user.id, req.file));
+    });
 }
 
 export const user_photoController = new User_photoController();

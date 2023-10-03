@@ -3,7 +3,8 @@ import {cloudinary} from "../api_services/cloudinary";
 import {User} from "../models/user.model";
 import {UserPhoto} from "../models/user_photos.model";
 import {removeImg, uploadImg} from "../helpers/photosCloud";
-import {Types} from "mongoose";
+import mongoose, {Types} from "mongoose";
+import {IPhoto} from "../interface/model.interface";
 
 export class User_photoService {
     static async uploadPhoto(files: any, user_id: Types.ObjectId) {
@@ -52,4 +53,31 @@ export class User_photoService {
         }
     }
 
+    static async addPhoto(user_id: Types.ObjectId, file: any) {
+        const targetUser = await User.findById(user_id).lean();
+
+        if (!targetUser) throw new Api404Error('User not found');
+
+        const userPhotos = await UserPhoto.findOne({user_id: user_id});
+
+        if (!userPhotos) throw new Api404Error('User not found');
+
+        const [{photo_url, public_id}]: any = await uploadImg([file]);
+
+        const uploadResult: { photo_url: string; _id: string; public_id: string } = {
+            photo_url: photo_url,
+            public_id: public_id,
+            _id: new mongoose.Types.ObjectId().toString()
+        };
+
+        if (userPhotos.photo.indexOf(uploadResult) === -1) {
+            userPhotos.photo.push(uploadResult);
+        }
+
+        await userPhotos.save();
+
+        return {
+            data: userPhotos
+        }
+    }
 }

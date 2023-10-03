@@ -23,12 +23,21 @@ export class LikeService {
 
         await like.save();
 
-        const likeEachOthera = await Like.exists({sender_id: user, target_id: targetUser});
-        const likeEachOtherb = await Like.exists({sender_id: targetUser, target_id: user});
+        const matchedKey1 = `matched:${user}-${targetUser}`;
+        const matchedKey2 = `matched:${targetUser}-${user}`;
 
-        if (likeEachOthera && likeEachOtherb) {
+
+        const targetLikesUser = await redisClient.sismember('likedUsers:' + targetUser, user);
+        console.log(targetLikesUser)
+        // const likeEachOthera = await Like.exists({sender_id: user, target_id: targetUser});
+        // const likeEachOtherb = await Like.exists({sender_id: targetUser, target_id: user});
+
+        if (targetLikesUser) {
             const match = new Match({user1_id: user, user2_id: targetUser, matched_at: new Date()});
             await match.save();
+
+            await redisClient.srem('matches:' + user, targetUser);
+            await redisClient.srem('matches:' + targetUser, user);
 
             const matchedKey = `matched:${user}-${targetUser}`;
             await redisClient.set(matchedKey, JSON.stringify(match), 'EX', 86400);
@@ -37,7 +46,9 @@ export class LikeService {
                 message: 'You matched!!!'
             }
         }
-        
+        const likedUsersSetKey = `likedUsers:${user}`;
+        await redisClient.sadd(likedUsersSetKey, targetUser, 'EX', 86400);
+
         return {
             message: 'You liked this user'
         }

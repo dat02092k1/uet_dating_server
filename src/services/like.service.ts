@@ -31,7 +31,7 @@ export class LikeService {
             await match.save();
 
             const matchedKey = `matched:${user}-${targetUser}`;
-            await redisClient.set(matchedKey, JSON.stringify(match));
+            await redisClient.set(matchedKey, JSON.stringify(match), 'EX', 86400);
 
             return {
                 message: 'You matched!!!'

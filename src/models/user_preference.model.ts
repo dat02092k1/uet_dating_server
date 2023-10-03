@@ -4,7 +4,7 @@ import {IUserPreference} from "../interface/model.interface";
 
 const userPreferenceSchema = new Schema<IUserPreference>({
     user_id: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },

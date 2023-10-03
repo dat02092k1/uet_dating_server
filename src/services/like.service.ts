@@ -2,16 +2,19 @@ import {User} from "../models/user.model";
 import {Api404Error} from "../core/error.response";
 import {Like} from "../models/like.model";
 import {Match} from "../models/match.model";
+import {redisClient} from "../api_services/redis";
 
 export class LikeService {
     static async like(user: string, targetUser: string) {
-        console.log(user, targetUser)
-        const holderUser = await User.findById(user).lean();
+        // Check if both users exist in MongoDB
+        const [holderUser, foundUser] = await Promise.all([
+            User.findById(user).lean(),
+            User.findById(targetUser).lean(),
+        ]);
 
-        if (!holderUser) throw new Api404Error('User not found');
-
-        const foundUser = await User.findById(targetUser).lean();
-        if (!foundUser) throw new Api404Error('User not found');
+        if (!holderUser || !foundUser) {
+            throw new Api404Error('User not found');
+        }
 
         const like = new Like({
             sender_id: user,
@@ -26,6 +29,10 @@ export class LikeService {
         if (likeEachOthera && likeEachOtherb) {
             const match = new Match({user1_id: user, user2_id: targetUser, matched_at: new Date()});
             await match.save();
+
+            const matchedKey = `matched:${user}-${targetUser}`;
+            await redisClient.set(matchedKey, JSON.stringify(match));
+
             return {
                 message: 'You matched!!!'
             }

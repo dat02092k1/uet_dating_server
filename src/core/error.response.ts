@@ -47,7 +47,13 @@ export class Api404Error extends BaseError {
         super(message, status, errors, isOperational);
     }
 }
- 
+
+export class Api400Error extends BaseError {
+    constructor(message = httpStatusCode.ReasonPhrases.BAD_REQUEST, errors = [], status = httpStatusCode.StatusCodes.BAD_REQUEST, isOperational = true) {
+        super(message, status, errors, isOperational);
+    }
+}
+
 export class TypeError extends BaseError {
     path: string;
     value: any; 

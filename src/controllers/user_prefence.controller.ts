@@ -12,6 +12,10 @@ class User_prefenceController {
     editPreference = asyncHandler(async (req: UserRequest, res: Response, next: NextFunction) => {
         OK(res, 'Edit preference successfully', await User_preferenceService.editPreference(req.user.id, req.body.preference));
     })
+
+    findUsersByPreference = asyncHandler(async (req: UserRequest, res: Response, next: NextFunction) => {
+        OK(res, 'Find users by preference successfully', await User_preferenceService.findUsersByPreference(req.user.id));
+    })
 }
 
 export const user_prefenceController = new User_prefenceController();

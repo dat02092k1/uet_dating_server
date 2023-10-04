@@ -5,6 +5,8 @@ import {user_prefenceController} from "../../controllers/user_prefence.controlle
 export const preferenceRoute = express.Router();
 
 preferenceRoute.post('/preference', verifyMiddileware.verifyToken, user_prefenceController.addPreference);
-preferenceRoute.put('/preference', verifyMiddileware.verifyToken, user_prefenceController.editPreference)
+preferenceRoute.put('/preference', verifyMiddileware.verifyToken, user_prefenceController.editPreference);
+preferenceRoute.get('/preference', verifyMiddileware.verifyToken, user_prefenceController.findUsersByPreference);
+
 
 

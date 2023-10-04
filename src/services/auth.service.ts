@@ -4,11 +4,12 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import {UtilFunc} from "../utils/func";
 import { IUser } from "../interface/model.interface";
+import {Document} from "mongodb";
 
 dotenv.config();
 
 export class AuthService {
-    static async signup (user: Partial<IUser>) {
+    static async signup (user: Partial<IUser>): Promise<Document> {
         var holderUser = await User.findOne({
             $or: [
                 { email: user.email },
@@ -31,7 +32,7 @@ export class AuthService {
         }
     }
 
-    static async signin (user: Partial<IUser>) {
+    static async signin (user: Partial<IUser>): Promise<Document> {
         const {
             email, password
         } = user; 

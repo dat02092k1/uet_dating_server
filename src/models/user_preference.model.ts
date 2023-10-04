@@ -25,7 +25,8 @@ const userPreferenceSchema = new Schema<IUserPreference>({
         default: 30
     },
     preferred_gender: {
-        type: Number
+        type: Number,
+        required: true
     }
 })
 

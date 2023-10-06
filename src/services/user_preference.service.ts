@@ -110,7 +110,7 @@ export class User_preferenceService {
             },
         ];
 
-        const results = [];
+        const results: any = [];
         UserPreference.aggregate(pipeline).exec()
             .then((results) => {
                 // Do something with the results
@@ -119,7 +119,7 @@ export class User_preferenceService {
             })
             .catch((err) => {
                 console.error(err);
-            });;
+            });
 
             return {
                 results
